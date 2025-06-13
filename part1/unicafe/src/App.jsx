@@ -16,8 +16,9 @@ const Statistics = ( {good, neutral, bad  }) => {
                         <StatisticLine text={'good'} value={good}/>
                         <StatisticLine text={'neutral'} value={neutral}/>
                         <StatisticLine text={'bad'} value={bad}/>
+                        <StatisticLine text={'all'} value={good + bad +neutral}/>
                         <StatisticLine text={'average'} value={ (good -bad) / (good + bad + neutral) }/>
-                        <StatisticLine text={'positive'} value={  (good /  (good + bad + neutral) ) + '%'}/>
+                        <StatisticLine text={'positive'} value={  (good /  (good + bad + neutral) * 100 ) + '%'}/>
                     </tbody>
                 </table>
             </div>
@@ -55,8 +56,8 @@ const App = () => {
 
             <div>
                 <Button current={good} setter={setGood} title='good'/>
-                <Button current={bad} setter={setBad} title={'bad'}/>
                 <Button current={neutral} setter={setNeutral} title='neutral'/>
+                <Button current={bad} setter={setBad} title={'bad'}/>
             </div>
             <Statistics good={good} neutral={neutral} bad={bad}/>
         </div>
