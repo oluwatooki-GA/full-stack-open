@@ -113,7 +113,8 @@ const App = () => {
             }, 5000)
             resetPersonsList()
         }).catch((error) => {
-            setMessage({color:'red',message:`There was an error adding ${newPerson.name}\nerror: ${error}`})
+            setMessage({color:'red',message:`There was an error adding 
+            ${newPerson.name}\nerror: ${error.response.data.error ? error.response.data.error : error.message}`})
 
             setTimeout(() => {
                 setMessage(null)
