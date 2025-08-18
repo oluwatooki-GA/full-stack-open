@@ -20,6 +20,6 @@ mongoose
 
 
 
-app.use('/api/blog', blogRouter)
+app.use('/api/blogs', blogRouter)
 
 module.exports = app

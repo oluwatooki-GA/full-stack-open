@@ -25,7 +25,11 @@ const newBlogPost = {
     url: 'https://reactpat.com/',
     likes: 44,
 }
-
+const blogWithoutLikes = {
+    title: 'Blog Without Likes',
+    author: 'No Likes Author',
+    url: 'https://nolikes.com/'
+}
 const blogPostsInDb = async () => {
     const blogPosts = await Blog.find({})
     return blogPosts.map(blog => blog.toJSON())
@@ -34,5 +38,6 @@ const blogPostsInDb = async () => {
 module.exports = {
     initialBlogPosts,
     newBlogPost,
+    blogWithoutLikes,
     blogPostsInDb
 }
