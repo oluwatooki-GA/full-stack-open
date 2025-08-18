@@ -19,7 +19,6 @@ mongoose
     })
 
 
-const PORT = config.PORT
 
 app.use('/api/blog', blogRouter)
 
