@@ -8,7 +8,6 @@ const usersRouter = require('./controllers/users')
 
 const app = express()
 app.use(express.json())
-// app.use(cors())
 logger.info('connecting to', config.MONGODB_URI)
 
 mongoose
