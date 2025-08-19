@@ -1,6 +1,5 @@
 const blogRouter = require('express').Router()
 const Blog = require('../models/blog')
-const {blogWithoutLikes} = require("../tests/blog_api_test_helper");
 
 blogRouter.get('/', async (request, response) => {
     const blogs = await Blog.find({})
