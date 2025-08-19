@@ -3,7 +3,7 @@ Content-Type: application/json
 Authorization: Bearer {{ auth_token }}
 
 {
-    "title": "New Blog Post",
+    "title": "New Blog",
     "url": "http://example.com/new-blog-post"
 }
 
