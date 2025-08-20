@@ -4,6 +4,7 @@ import blogService from './services/blogs'
 import LoginForm from "./components/LoginForm.jsx";
 import CreateBlogForm from "./components/CreateBlogForm.jsx";
 import Togglable from "./components/Toggable.jsx";
+import blogs from "./services/blogs";
 
 const App = () => {
     const [blogs, setBlogs] = useState([])
@@ -15,9 +16,12 @@ const App = () => {
 
 
     useEffect(() => {
-        blogService.getAll().then(blogs =>
-            setBlogs(blogs)
-        )
+        const getBlogs = async () => {
+            let initialblogs = await blogService.getAll()
+            initialblogs = initialblogs.sort((a,b) => b.likes - a.likes )
+            setBlogs(initialblogs)
+        }
+        getBlogs()
     }, [])
 
     useEffect(() => {
@@ -32,7 +36,7 @@ const App = () => {
     const createBlog = async  (blogObject) => {
         blogFormRef.current.toggleVisibility()
         const returnedBlog = await blogService.create(blogObject)
-        setBlogs(blogs.concat(returnedBlog))
+        setBlogs(blogs.concat(returnedBlog).sort((a,b) => b.likes - a.likes ))
     }
 
     const logout = () => {
