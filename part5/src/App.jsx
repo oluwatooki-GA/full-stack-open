@@ -3,6 +3,7 @@ import Blog from './components/Blog'
 import blogService from './services/blogs'
 import LoginForm from "./components/LoginForm.jsx";
 import CreateBlogForm from "./components/CreateBlogForm.jsx";
+import Togglable from "./components/Toggable.jsx";
 
 const App = () => {
     const [blogs, setBlogs] = useState([])
@@ -43,7 +44,10 @@ const App = () => {
             }
 
             <h2>Create new</h2>
-            { user && <CreateBlogForm setNotification={setNotification} setErrorMessage={setErrorMessage} /> }
+            { user &&
+                <Togglable buttonLabel={'new note'}>
+                    <CreateBlogForm setNotification={setNotification} setErrorMessage={setErrorMessage} />
+                </Togglable> }
             {blogs.map(blog =>
                 <Blog key={blog.id} blog={blog} />
             )}
