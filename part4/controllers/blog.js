@@ -11,10 +11,10 @@ blogRouter.get('/', async (request, response) => {
 })
 
 blogRouter.post('/',userExtractor, async (request, response) => {
-    const { title, url } = request.body
+    const { title, url,author } = request.body
 
     if (!title || !url) {
-        return response.status(400).end()
+        return response.status(400).json({error:'There has to be a title and url'})
     }
 
 
@@ -25,7 +25,7 @@ blogRouter.post('/',userExtractor, async (request, response) => {
 
     const user = request.user
 
-    const blog = new Blog( { title,url,author:user.username ,user:user._id})
+    const blog = new Blog( { title,url,author: author || user.username ,user:user._id})
     const savedBlog = await blog.save()
 
     user.blogs = user.blogs.concat(savedBlog.id)

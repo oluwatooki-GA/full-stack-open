@@ -2,13 +2,14 @@ import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import LoginForm from "./components/LoginForm.jsx";
+import CreateBlogForm from "./components/CreateBlogForm.jsx";
 
 const App = () => {
     const [blogs, setBlogs] = useState([])
 
     const [errorMessage, setErrorMessage] = useState(null)
     const [user, setUser] = useState(null)
-
+    const [notification, setNotification] = useState()
     useEffect(() => {
         blogService.getAll().then(blogs =>
             setBlogs(blogs)
@@ -20,7 +21,7 @@ const App = () => {
         if (loggedUserJSON) {
             const user = JSON.parse(loggedUserJSON)
             setUser(user)
-            // noteService.setToken(user.token)
+            blogService.setToken(user.token)
         }
     }, [])
 
@@ -31,7 +32,8 @@ const App = () => {
     return (
         <div>
             <h2>blogs</h2>
-            <p>{errorMessage}</p>
+            {errorMessage && <p style={{color:'red', fontSize: 'large',border:'2px solid red',padding:10,fontWeight:'500'}}>{errorMessage}</p>}
+            {notification && <p style={{color:'green', fontSize: 'large',border:'1px solid green',padding:10,fontWeight:'500'}}>{notification}</p>}
 
             { user ?
                 <div>
@@ -39,6 +41,9 @@ const App = () => {
                 </div> :
                 <LoginForm setUser={setUser} setErrorMessage={setErrorMessage} />
             }
+
+            <h2>Create new</h2>
+            { user && <CreateBlogForm setNotification={setNotification} setErrorMessage={setErrorMessage} /> }
             {blogs.map(blog =>
                 <Blog key={blog.id} blog={blog} />
             )}
