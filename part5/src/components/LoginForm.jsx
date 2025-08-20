@@ -1,5 +1,5 @@
-import {useState} from "react";
-import loginService from '../services/login';
+import { useState } from 'react'
+import loginService from '../services/login'
 import blogService from '../services/blogs'
 const LoginForm = ({ setUser,setErrorMessage }) => {
     const [username, setUsername] = useState('')
@@ -48,7 +48,7 @@ const LoginForm = ({ setUser,setErrorMessage }) => {
             </div>
             <button type="submit">login</button>
         </form>
-    );
-};
+    )
+}
 
-export default LoginForm;
+export default LoginForm

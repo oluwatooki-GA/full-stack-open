@@ -1,10 +1,11 @@
-import {useState, useEffect, useRef} from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
-import LoginForm from "./components/LoginForm.jsx";
-import CreateBlogForm from "./components/CreateBlogForm.jsx";
-import Togglable from "./components/Toggable.jsx";
-import blogs from "./services/blogs";
+import LoginForm from './components/LoginForm.jsx'
+import CreateBlogForm from './components/CreateBlogForm.jsx'
+import Togglable from './components/Toggable.jsx'
+import blogs from './services/blogs'
+import blog from './components/Blog'
 
 const App = () => {
     const [blogs, setBlogs] = useState([])
@@ -39,15 +40,20 @@ const App = () => {
         setBlogs(blogs.concat(returnedBlog).sort((a,b) => b.likes - a.likes ))
     }
 
+    const deleteBlog = async  (blogObject) => {
+        await blogService.deletePost(blogObject.id)
+        setBlogs(blogs.filter(blog => blog.id !== blogObject.id))
+    }
+
     const logout = () => {
-      localStorage.removeItem('loggedBlogappUser')
+        localStorage.removeItem('loggedBlogappUser')
         setUser(null)
     }
     return (
         <div>
             <h2>blogs</h2>
-            {errorMessage && <p style={{color:'red', fontSize: 'large',border:'2px solid red',padding:10,fontWeight:'500'}}>{errorMessage}</p>}
-            {notification && <p style={{color:'green', fontSize: 'large',border:'1px solid green',padding:10,fontWeight:'500'}}>{notification}</p>}
+            {errorMessage && <p style={{ color:'red', fontSize: 'large',border:'2px solid red',padding:10,fontWeight:'500' }}>{errorMessage}</p>}
+            {notification && <p style={{ color:'green', fontSize: 'large',border:'1px solid green',padding:10,fontWeight:'500' }}>{notification}</p>}
 
             { user ?
                 <div>
@@ -63,7 +69,8 @@ const App = () => {
                 </Togglable> }
 
             {blogs.map(blog =>
-                <Blog key={blog.id} blog={blog} />
+                <Blog key={blog.id} blog={blog} deleteBlog={deleteBlog}
+                    setNotification={setNotification} setErrorMessage={setErrorMessage} username={user?.username}/>
             )}
         </div>
     )

@@ -1,4 +1,4 @@
-import {useState} from "react";
+import { useState } from 'react'
 
 const CreateBlogForm = ({ setNotification,setErrorMessage,createBlog }) => {
     const [title, setTitle] = useState('')
@@ -10,6 +10,9 @@ const CreateBlogForm = ({ setNotification,setErrorMessage,createBlog }) => {
             event.preventDefault()
             const newBlog = await createBlog({ title, author, url })
             setNotification(`New blog '${newBlog.title}' created!'`)
+            setTimeout(() => {
+                setNotification(null)
+            }, 5000)
             setTitle('')
             setAuthor('')
             setUrl('')
@@ -54,7 +57,7 @@ const CreateBlogForm = ({ setNotification,setErrorMessage,createBlog }) => {
             </div>
             <button type="submit">create</button>
         </form>
-    );
-};
+    )
+}
 
-export default CreateBlogForm;
+export default CreateBlogForm
