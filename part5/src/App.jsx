@@ -24,13 +24,21 @@ const App = () => {
         }
     }, [])
 
-    console.log(user)
+    const logout = () => {
+      localStorage.removeItem('loggedBlogappUser')
+        setUser(null)
+    }
     return (
         <div>
             <h2>blogs</h2>
             <p>{errorMessage}</p>
 
-            { user ? <p>{user.username} is logged in</p> :  <LoginForm setUser={setUser} setErrorMessage={setErrorMessage} /> }
+            { user ?
+                <div>
+                    {user.username} is logged in <button onClick={logout} >logout</button>
+                </div> :
+                <LoginForm setUser={setUser} setErrorMessage={setErrorMessage} />
+            }
             {blogs.map(blog =>
                 <Blog key={blog.id} blog={blog} />
             )}
