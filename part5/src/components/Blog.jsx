@@ -37,11 +37,16 @@ const Blog = ({ blog, setErrorMessage,username,setNotification,deleteBlog }) => 
 
     return (
         <div style={{ border:'2px solid black', padding:5,marginBottom:15 }}>
-            {blog.title} {blog.author} <button onClick={() => setVisible(!visible)}>{ visible ? 'hide':'view' }</button>
+            <span className="blog-title-author">
+                {blog.title} {blog.author}
+            </span>
+            <button onClick={() => setVisible(!visible)}>{ visible ? 'hide':'view' }</button>
             {visible && (
                 <div>
-                    <p>url: {blog.url}</p>
-                    <p>likes: {likes} <button onClick={handleUpdateLikes}>like</button></p>
+                    <p className="blog-url">url: {blog.url}</p>
+                    <p className="blog-likes">
+                        likes: {likes} <button onClick={handleUpdateLikes}>like</button>
+                    </p>
                     <p>username: {blog.user.username}</p>
                     {username === blog.user.username &&
                         <button style={{ background:'red',color:'white' }}

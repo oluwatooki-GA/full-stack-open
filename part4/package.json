@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@testing-library/react": "^16.3.0",
     "bcryptjs": "^3.0.2",
     "cross-env": "^10.0.0",
     "dotenv": "^17.2.1",
