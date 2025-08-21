@@ -1,10 +1,15 @@
 import { useState } from 'react'
 import blogService from '../services/blogs.js'
-const Blog = ({ blog, setErrorMessage,username,setNotification,deleteBlog }) => {
+const Blog = ({ blog, setErrorMessage, username, setNotification, deleteBlog, onLike }) => {
     const [visible, setVisible] = useState(false)
     const [likes, setLikes] = useState(blog.likes)
 
     const handleUpdateLikes = async () => {
+        if (onLike) {
+            onLike()
+            setLikes(likes + 1)
+            return
+        }
         try {
             await blogService.updateLikes(blog.id, likes + 1)
             setLikes(likes + 1)
