@@ -3,6 +3,13 @@ const defaultUserInfo  = {
     'name':'mike lang',
     'password':'password'
 }
+
+const secondaryUserInfo  = {
+    'username':'A. Levy',
+    'name':'Angstrom Levy',
+    'password':'password is password'
+}
+
 const createNewBlogContent = {
     author:'Eren',
     title:'The rumbling',
@@ -25,6 +32,7 @@ const createBlog = async(page,author,title,url) => {
 
 module.exports = {
     defaultUserInfo,
+    secondaryUserInfo,
     loginUser,
     createNewBlogContent,
     createBlog

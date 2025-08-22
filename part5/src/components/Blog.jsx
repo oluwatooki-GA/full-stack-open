@@ -54,6 +54,7 @@ const Blog = ({ blog, setErrorMessage, username, setNotification, deleteBlog, on
                         likes: {likes} <button onClick={handleUpdateLikes}>like</button>
                     </p>
                     <p>username: {blog.user.username}</p>
+
                     {username === blog.user.username &&
                         <button style={{ background:'red',color:'white' }}
                             onClick={handleDeleteBlog}>remove</button> }

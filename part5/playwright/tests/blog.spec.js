@@ -1,11 +1,12 @@
 // @ts-check
 const { test, expect, beforeEach, describe } = require('@playwright/test')
 
-const {defaultUserInfo, loginUser, createNewBlogContent,createBlog} = require("./helper");
+const {defaultUserInfo, loginUser, createNewBlogContent,createBlog, secondaryUserInfo} = require("./helper");
 
 describe('Blog app', () => {
     beforeEach(async ({ page,request }) => {
         await request.post('http://localhost:3001/api/testing/reset')
+
         await request.post('http://localhost:3001/api/users', {
             data: {
                 name: defaultUserInfo.name,
@@ -13,6 +14,15 @@ describe('Blog app', () => {
                 password: defaultUserInfo.password,
             }
         })
+
+        await request.post('http://localhost:3001/api/users', {
+            data: {
+                name: secondaryUserInfo.name,
+                username: secondaryUserInfo.username,
+                password: secondaryUserInfo.password,
+            }
+        })
+
 
         await page.goto('http://localhost:5173')
 
@@ -53,5 +63,16 @@ describe('Blog app', () => {
             await blogComponent.getByRole('button',{name:'like'}).click()
             await expect(blogComponent.locator('.blog-likes')).toHaveText('likes: 1 like',)
         })
+
+        test('the user who added the blog can delete the blog', async ({ page }) => {
+            const blogText = page.getByText(`${createNewBlogContent.title} ${createNewBlogContent.author}`)
+            const blogComponent = blogText.locator('..')
+            await blogComponent.getByRole('button',{name:'view'}).click()
+            page.on('dialog', dialog => dialog.accept());
+            await blogComponent.getByRole('button',{name:'remove'}).click()
+            await expect(page.getByText(`Blog '${createNewBlogContent.title}' Successfully deleted`)).toBeVisible()
+        })
+
+
     })
 })
