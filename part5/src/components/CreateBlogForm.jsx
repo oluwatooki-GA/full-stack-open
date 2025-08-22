@@ -9,8 +9,8 @@ const CreateBlogForm = ({ setNotification,setErrorMessage,createBlog }) => {
         try {
 
             event.preventDefault()
-            const newBlog = await createBlog({ title, author, url })
-            setNotification(`New blog '${newBlog.title}' created!'`)
+            await createBlog({ title, author, url })
+            setNotification(`New blog '${title}' created!'`)
             setTimeout(() => {
                 setNotification(null)
             }, 5000)
@@ -20,7 +20,7 @@ const CreateBlogForm = ({ setNotification,setErrorMessage,createBlog }) => {
         } catch (exception) {
 
             setErrorMessage(exception?.response?.data?.error || exception.message)
-
+            console.log('sssss',exception)
             setTimeout(() => {
                 setErrorMessage(null)
             }, 5000)
