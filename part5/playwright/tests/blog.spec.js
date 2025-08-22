@@ -1,13 +1,13 @@
 // @ts-check
 const { test, expect, beforeEach, describe } = require('@playwright/test')
 
-const {defaultUserInfo, loginUser, createNewBlogContent,createBlog, secondaryUserInfo} = require("./helper");
+const {defaultUserInfo, loginUser, createNewBlogContent,createBlog, secondaryUserInfo, viewBlog} = require("./helper");
 
 describe('Blog app', () => {
     beforeEach(async ({ page,request }) => {
-        await request.post('http://localhost:3001/api/testing/reset')
+        await request.post('/api/testing/reset')
 
-        await request.post('http://localhost:3001/api/users', {
+        await request.post('/api/users', {
             data: {
                 name: defaultUserInfo.name,
                 username: defaultUserInfo.username,
@@ -15,7 +15,7 @@ describe('Blog app', () => {
             }
         })
 
-        await request.post('http://localhost:3001/api/users', {
+        await request.post('/api/users', {
             data: {
                 name: secondaryUserInfo.name,
                 username: secondaryUserInfo.username,
@@ -24,7 +24,7 @@ describe('Blog app', () => {
         })
 
 
-        await page.goto('http://localhost:5173')
+        await page.goto('/')
 
     })
 
@@ -65,14 +65,18 @@ describe('Blog app', () => {
         })
 
         test('the user who added the blog can delete the blog', async ({ page }) => {
-            const blogText = page.getByText(`${createNewBlogContent.title} ${createNewBlogContent.author}`)
-            const blogComponent = blogText.locator('..')
-            await blogComponent.getByRole('button',{name:'view'}).click()
+
+            const blogComponent = await viewBlog(page,createNewBlogContent.title,createNewBlogContent.author)
             page.on('dialog', dialog => dialog.accept());
             await blogComponent.getByRole('button',{name:'remove'}).click()
             await expect(page.getByText(`Blog '${createNewBlogContent.title}' Successfully deleted`)).toBeVisible()
         })
 
-
+        test("only the user who added the blog sees the blog's delete button", async ({ page }) => {
+            await page.getByRole('button',{name:'logout'}).click()
+            await loginUser(page,secondaryUserInfo.username,secondaryUserInfo.password)
+            const blogComponent = await viewBlog(page,createNewBlogContent.title,createNewBlogContent.author)
+            await expect(blogComponent.getByRole('button',{name:'remove'})).toBeVisible({visible:false})
+        })
     })
 })

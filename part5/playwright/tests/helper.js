@@ -19,7 +19,7 @@ const createNewBlogContent = {
 const loginUser = async (page,username,password) => {
     await page.getByLabel('username').fill(username)
     await page.getByLabel('password').fill(password)
-    await page.getByRole('button').click()
+    await page.getByRole('button',{name:'login'}).click()
 }
 
 const createBlog = async(page,author,title,url) => {
@@ -30,10 +30,18 @@ const createBlog = async(page,author,title,url) => {
     await page.getByRole('button', { name: 'create' }).click()
 }
 
+const viewBlog = async(page,title,author) => {
+    const blogText = page.getByText(`${title} ${author}`)
+    const blogComponent = blogText.locator('..')
+    await blogComponent.getByRole('button',{name:'view'}).click()
+    return blogComponent
+}
+
 module.exports = {
     defaultUserInfo,
     secondaryUserInfo,
     loginUser,
     createNewBlogContent,
-    createBlog
+    createBlog,
+    viewBlog,
 }
