@@ -27,7 +27,7 @@ const LoginForm = ({ setUser,setErrorMessage }) => {
     }
 
     return (
-        <form onSubmit={handleLogin}>
+        <form onSubmit={handleLogin} id='loginForm'>
             <div>
                 username
                 <input
