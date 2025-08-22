@@ -1,7 +1,7 @@
 // @ts-check
 const { test, expect, beforeEach, describe } = require('@playwright/test')
 
-const {defaultUserInfo, loginUser} = require("./helper");
+const {defaultUserInfo, loginUser, createNewBlogContent,createBlog} = require("./helper");
 
 describe('Blog app', () => {
     beforeEach(async ({ page,request }) => {
@@ -39,15 +39,19 @@ describe('Blog app', () => {
     describe('When logged in', () => {
         beforeEach(async ({ page }) => {
             await loginUser(page,defaultUserInfo.username,defaultUserInfo.password)
+            await createBlog(page,createNewBlogContent.author,createNewBlogContent.title,createNewBlogContent.url)
         })
 
         test('a new blog can be created', async ({ page }) => {
-            await page.getByText('new Blog').click()
-            await page.getByLabel('author').fill('New Author')
-            await page.getByLabel('title').fill('New Blog Title')
-            await page.getByLabel('url').fill('https://example.com/new-blog')
-            await page.getByRole('button', { name: 'create' }).click()
-            await expect(page.getByText('New Blog Title New Author',)).toBeVisible()
+            await expect(page.getByText(`${createNewBlogContent.title} ${createNewBlogContent.author}`)).toBeVisible()
+        })
+
+        test('blog can be liked', async ({ page }) => {
+            const blogText = page.getByText(`${createNewBlogContent.title} ${createNewBlogContent.author}`)
+            const blogComponent = blogText.locator('..')
+            await blogComponent.getByRole('button',{name:'view'}).click()
+            await blogComponent.getByRole('button',{name:'like'}).click()
+            await expect(blogComponent.locator('.blog-likes')).toHaveText('likes: 1 like',)
         })
     })
 })

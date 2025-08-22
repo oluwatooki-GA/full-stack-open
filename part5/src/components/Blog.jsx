@@ -21,6 +21,7 @@ const Blog = ({ blog, setErrorMessage, username, setNotification, deleteBlog, on
         }
     }
 
+
     const handleDeleteBlog = async () => {
         try{
             if (window.confirm(`Remove blog ${blog.title}`)) {

@@ -3,6 +3,11 @@ const defaultUserInfo  = {
     'name':'mike lang',
     'password':'password'
 }
+const createNewBlogContent = {
+    author:'Eren',
+    title:'The rumbling',
+    url:'https://example.com/new-blog',
+}
 
 const loginUser = async (page,username,password) => {
     await page.getByLabel('username').fill(username)
@@ -10,7 +15,17 @@ const loginUser = async (page,username,password) => {
     await page.getByRole('button').click()
 }
 
+const createBlog = async(page,author,title,url) => {
+    await page.getByText('new Blog').click()
+    await page.getByLabel('author').fill(author)
+    await page.getByLabel('title').fill(title)
+    await page.getByLabel('url').fill(url)
+    await page.getByRole('button', { name: 'create' }).click()
+}
+
 module.exports = {
     defaultUserInfo,
-    loginUser
+    loginUser,
+    createNewBlogContent,
+    createBlog
 }
