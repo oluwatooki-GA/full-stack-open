@@ -69,10 +69,13 @@ const App = () => {
                     <CreateBlogForm createBlog={createBlog} setNotification={setNotification} setErrorMessage={setErrorMessage} />
                 </Togglable> }
 
-            {blogs.map(blog =>
-                <Blog key={blog.id} blog={blog} deleteBlog={deleteBlog}
-                    setNotification={setNotification} setErrorMessage={setErrorMessage} username={user? user.username: null}/>
-            )}
+            <div id='blogList'>
+                {blogs.map(blog =>
+                    <Blog key={blog.id} blog={blog} deleteBlog={deleteBlog}
+                          setNotification={setNotification} setErrorMessage={setErrorMessage} username={user? user.username: null}/>
+                )}
+            </div>
+
         </div>
     )
 }

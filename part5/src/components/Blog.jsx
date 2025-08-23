@@ -51,7 +51,7 @@ const Blog = ({ blog, setErrorMessage, username, setNotification, deleteBlog, on
                 <div>
                     <p className="blog-url">url: {blog.url}</p>
                     <p className="blog-likes">
-                        likes: {likes} <button onClick={handleUpdateLikes}>like</button>
+                        <span>likes: {likes}</span> <button onClick={handleUpdateLikes}>like</button>
                     </p>
                     <p>username: {blog.user.username}</p>
 

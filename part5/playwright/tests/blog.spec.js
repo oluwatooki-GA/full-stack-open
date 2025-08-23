@@ -1,7 +1,8 @@
 // @ts-check
 const { test, expect, beforeEach, describe } = require('@playwright/test')
+const {defaultUserInfo, loginUser, createNewBlogContent,createBlog,
+    secondaryUserInfo, viewBlog, likeBlog, blogContents} = require("./helper");
 
-const {defaultUserInfo, loginUser, createNewBlogContent,createBlog, secondaryUserInfo, viewBlog} = require("./helper");
 
 describe('Blog app', () => {
     beforeEach(async ({ page,request }) => {
@@ -22,7 +23,6 @@ describe('Blog app', () => {
                 password: secondaryUserInfo.password,
             }
         })
-
 
         await page.goto('/')
 
@@ -57,11 +57,8 @@ describe('Blog app', () => {
         })
 
         test('blog can be liked', async ({ page }) => {
-            const blogText = page.getByText(`${createNewBlogContent.title} ${createNewBlogContent.author}`)
-            const blogComponent = blogText.locator('..')
-            await blogComponent.getByRole('button',{name:'view'}).click()
-            await blogComponent.getByRole('button',{name:'like'}).click()
-            await expect(blogComponent.locator('.blog-likes')).toHaveText('likes: 1 like',)
+            const blogComponent = await likeBlog(page,createNewBlogContent.title,createNewBlogContent.author)
+            await expect(blogComponent.locator('.blog-likes span')).toHaveText('likes: 1',)
         })
 
         test('the user who added the blog can delete the blog', async ({ page }) => {
@@ -77,6 +74,26 @@ describe('Blog app', () => {
             await loginUser(page,secondaryUserInfo.username,secondaryUserInfo.password)
             const blogComponent = await viewBlog(page,createNewBlogContent.title,createNewBlogContent.author)
             await expect(blogComponent.getByRole('button',{name:'remove'})).toBeVisible({visible:false})
+        })
+
+        test("the blogs are arranged in the order according to" +
+            " the likes",async ({ page }) => {
+
+            for (let blog of blogContents) {
+                await createBlog(page,blog.author,blog.title,blog.url)
+                await likeBlog(page,blog.title,blog.author,blog.wantedLikes)
+            }
+            await page.reload()
+            const blogComponents = await page.locator('#blogList div').all()
+            let likes = []
+            for (let blog of blogComponents) {
+                await blog.getByRole('button',{name:'view'}).click()
+                const like = await blog.locator('.blog-likes span').textContent()
+                likes.push(parseInt(like.replace('likes: ', ''), 10))
+                await blog.getByRole('button',{name:'hide'}).click()
+            }
+            const likesSorted = likes.sort((a,b) => b.likes - a.likes)
+            expect(likes).toEqual(likesSorted)
         })
     })
 })

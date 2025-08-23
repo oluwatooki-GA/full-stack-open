@@ -11,7 +11,6 @@ const setToken = newToken => {
 
 const getAll = async () => {
     const response = await axios.get(baseUrl)
-    console.log(await response.data)
     return response.data
 }
 
