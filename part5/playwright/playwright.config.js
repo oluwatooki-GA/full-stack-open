@@ -81,7 +81,7 @@ export default defineConfig({
     webServer: [
         {
             // Start backend (Express in part4)
-            command: 'powershell -Command "npm run start:test"',   // or "npm run start:test"
+            command: 'npm run start:test',   // or "npm run start:test"
             cwd: '../../part4',          // run command from backend folder
             url: 'http://localhost:3001/ping', // endpoint to check backend is up
             reuseExistingServer: !process.env.CI,
