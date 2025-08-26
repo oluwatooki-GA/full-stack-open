@@ -26,7 +26,7 @@ const reducer = (state = initialState, action) => {
         case 'VOTE': {
             const foundAnecdote = state.find(anecdote => anecdote.id === action.payload.id)
             return state.map(anecdote => anecdote.id !== action.payload.id ?
-                anecdote : {...foundAnecdote, votes: foundAnecdote.votes + 1})
+                anecdote : {...foundAnecdote, votes: foundAnecdote.votes + 1}).sort((a, b) => b.votes - a.votes)
         }
         case 'NEW_ANECDOTE': {
             const newAnecdote = asObject(action.payload.content)
