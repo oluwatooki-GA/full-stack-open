@@ -7,12 +7,12 @@ const AnecdoteList = () => {
         return anecdotes.filter( anecdote => anecdote.content.includes(filter) );
     });
 
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
 
     const vote = (anecdote) => {
-        dispatch(createVote(anecdote.id))
-        dispatch(setNotification(`you voted ${anecdote.content}`,4))
-    }
+        dispatch(createVote(anecdote.id));
+        dispatch(setNotification(`you voted ${anecdote.content}`,4));
+    };
     return (
         <div>
             {anecdotes.map(anecdote =>

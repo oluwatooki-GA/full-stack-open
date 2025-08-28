@@ -12,11 +12,12 @@ module.exports = {
   settings: { react: { version: '18.2' } },
   plugins: ['react-refresh'],
   rules: {
+
       "indent": ["error", 4],
-      "semi": ["error", "always"],
-      'react-refresh/only-export-components': [
+    'react-refresh/only-export-components': [
       'warn',
       { allowConstantExport: true },
     ],
+    'no-unused-vars': 0
   },
 }
