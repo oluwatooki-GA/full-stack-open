@@ -19,7 +19,7 @@ const AnecdoteList = ({ anecdotes }) => (
     <div>
         <h2>Anecdotes</h2>
         <ul>
-            {anecdotes.map(anecdote => <li><Link to={`/anecdotes/${anecdote.id}`} key={anecdote.id} >{anecdote.content}</Link></li>)}
+            {anecdotes.map(anecdote => <li key={anecdote.id}><Link to={`/anecdotes/${anecdote.id}`}  >{anecdote.content}</Link></li>)}
         </ul>
     </div>
 )
@@ -79,6 +79,16 @@ const CreateNew = (props) => {
         },5000)
     }
 
+    const handleReset = (e) => {
+        e.preventDefault()
+        author.onChange(e,'b')
+        content.onChange(e,'b')
+        info.onChange(e,'b')
+        // author.reset()
+        // content.reset()
+        // info.reset()
+    }
+
     return (
         <div>
             <h2>create a new anecdote</h2>
@@ -96,6 +106,7 @@ const CreateNew = (props) => {
                     <input name='info' {...info} />
                 </div>
                 <button type={'submit'}>create</button>
+                <button type={'reset'} onClick={handleReset}>reset</button>
             </form>
         </div>
     )
