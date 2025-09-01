@@ -9,7 +9,7 @@ const App = () => {
     const setNotification = useSetNotification();
     const {isError,isPending,data: anecdotes} = useQuery({
         queryKey: ['anecdotes'],
-        queryFn: getAll
+        queryFn: getAll,
     })
 
     const updateAnecdoteMutation = useMutation(

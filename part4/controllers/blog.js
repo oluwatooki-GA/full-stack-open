@@ -72,4 +72,35 @@ blogRouter.put('/:id', async (request, response) => {
 
     response.json(updatedBlogPost)
 })
+
+blogRouter.get('/:id', async (request, response) => {
+    try {
+        const blog = await Blog.findById(request.params.id).populate('user', { username: 1, name: 1 });
+        if (!blog) {
+            return response.status(404).json({ error: 'Blog not found' });
+        }
+        response.json(blog);
+    } catch (error) {
+        response.status(400).json({ error: 'Malformed id' });
+    }
+});
+
+blogRouter.post('/:id/comments', async (request, response) => {
+    const { comment } = request.body;
+    if (!comment || typeof comment !== 'string' || comment.trim() === '') {
+        return response.status(400).json({ error: 'Comment must be a non-empty string' });
+    }
+    try {
+        const blog = await Blog.findById(request.params.id);
+        if (!blog) {
+            return response.status(404).json({ error: 'Blog not found' });
+        }
+        blog.comments = blog.comments.concat(comment);
+        await blog.save();
+        response.status(201).json(blog);
+    } catch (error) {
+        response.status(400).json({ error: 'Malformed id' });
+    }
+});
+
 module.exports = blogRouter
