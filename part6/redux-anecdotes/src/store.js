@@ -1,6 +1,6 @@
-import anecdoteReducer from './reducers/anecdoteReducer'
+import anecdoteReducer from './reducers/anecdoteReducer';
 import filterReducer from "./reducers/filterReducer.js";
-import notificationReducer from './reducers/notificationReducer.js'
+import notificationReducer from './reducers/notificationReducer.js';
 import {configureStore} from "@reduxjs/toolkit";
 
 export const store = configureStore(
@@ -11,4 +11,4 @@ export const store = configureStore(
             notification: notificationReducer
         },
         devTools:true
-    })
+    });
